@@ -18,7 +18,7 @@ const pct = (a, b) => (b === 0 ? 0 : Math.min(100, Math.round((a / b) * 100)));
 const COLORS = ["#E8643A","#3A7FE8","#5BC47A","#C45BB8","#E8B83A","#3AC4C4"];
 const CT = { Заказчик:{bg:"#E3F2FD",c:"#1565C0"}, Подрядчик:{bg:"#FFF3E0",c:"#E65100"}, Поставщик:{bg:"#F3E5F5",c:"#6A1B9A"}, Сотрудник:{bg:"#E8F5E9",c:"#2E7D32"} };
 const EVC = { Поступление:"#388E3C", Отчёт:"#1976D2", Перевод:"#E53935", Смета:"#7B1FA2" };
-const EVI = { Поступление:"↓", Отчёт:"≡", Перевод:"↑", Смета:"◻" };
+const EVI = { Поступление:"v", Отчёт:"=", Перевод:"^", Смета:"o" };
 
 const INIT_CT = [
   { id:1, name:"Иванов А.В.", type:"Заказчик", phone:"+7 900 123-45-67", note:"" },
@@ -312,6 +312,6 @@ function CostSheet({ ci, proj, onClose, onDelete, onProgress, onAddPayment, onDe
               <span style={{ fontSize:13, color:"#555", minWidth:80 }}>{fmtD(pay.date)}</span>
               <span style={{ fontSize:12, color:"#aaa", flex:1, fontStyle:"italic" }}>{pay.note}</span>
               <span style={{ fontSize:14, fontWeight:600, color:"#388E3C" }}>+{fmt(pay.amount)}</span>
-              <span style={{ fontSize:18, color:"#ddd", cursor:"pointer", paddingLeft:6 }} onClick={() => onDelPayment(pay.id)}>×</span>
+              <span style={{ fontSize:18, color:"#ddd", cursor:"pointer", paddingLeft:6 }} onClick={() => onDelPayment(pay.id)}>x</span>
             </div>
           ))
