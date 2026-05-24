@@ -2,11 +2,11 @@ import { useState, useRef } from "react";
 
 const todayStr = () => new Date().toISOString().slice(0, 10);
 const uid = () => Date.now() + Math.floor(Math.random() * 9999);
-const fmt = (n) => new Intl.NumberFormat("ru-RU", { maximumFractionDigits: 0 }).format(n) + " руб.";
+const fmt = (n) => new Intl.NumberFormat("ru-RU", { maximumFractionDigits: 0 }).format(n) + " ₽";
 const fmtS = (n) => {
-  if (Math.abs(n) >= 1000000) return (n / 1000000).toFixed(1) + "М руб.";
-  if (Math.abs(n) >= 1000) return Math.round(n / 1000) + "К руб.";
-  return n + " руб.";
+  if (Math.abs(n) >= 1000000) return (n / 1000000).toFixed(1) + "М ₽";
+  if (Math.abs(n) >= 1000) return Math.round(n / 1000) + "К ₽";
+  return n + " ₽";
 };
 const fmtD = (iso) => {
   if (!iso) return "";
@@ -18,7 +18,7 @@ const pct = (a, b) => (b === 0 ? 0 : Math.min(100, Math.round((a / b) * 100)));
 const COLORS = ["#E8643A","#3A7FE8","#5BC47A","#C45BB8","#E8B83A","#3AC4C4"];
 const CT = { Заказчик:{bg:"#E3F2FD",c:"#1565C0"}, Подрядчик:{bg:"#FFF3E0",c:"#E65100"}, Поставщик:{bg:"#F3E5F5",c:"#6A1B9A"}, Сотрудник:{bg:"#E8F5E9",c:"#2E7D32"} };
 const EVC = { Поступление:"#388E3C", Отчёт:"#1976D2", Перевод:"#E53935", Смета:"#7B1FA2" };
-const EVI = { Поступление:"v", Отчёт:"=", Перевод:"^", Смета:"o" };
+const EVI = { Поступление:"↓", Отчёт:"≡", Перевод:"↑", Смета:"◻" };
 
 const INIT_CT = [
   { id:1, name:"Иванов А.В.", type:"Заказчик", phone:"+7 900 123-45-67", note:"" },
@@ -29,13 +29,13 @@ const INIT_CT = [
 ];
 const INIT_PL = [
   { id:1, name:"Отделочные работы", items:[
-    { id:1, name:"Штукатурка стен", unit:"м2", price:650 },
-    { id:2, name:"Шпаклёвка стен", unit:"м2", price:450 },
-    { id:3, name:"Покраска стен", unit:"м2", price:300 },
+    { id:1, name:"Штукатурка стен", unit:"м²", price:650 },
+    { id:2, name:"Шпаклёвка стен", unit:"м²", price:450 },
+    { id:3, name:"Покраска стен", unit:"м²", price:300 },
   ]},
   { id:2, name:"Напольные работы", items:[
-    { id:1, name:"Укладка плитки", unit:"м2", price:1200 },
-    { id:2, name:"Укладка ламината", unit:"м2", price:600 },
+    { id:1, name:"Укладка плитки", unit:"м²", price:1200 },
+    { id:2, name:"Укладка ламината", unit:"м²", price:600 },
   ]},
 ];
 const INIT_PRJ = [
@@ -54,7 +54,7 @@ const INIT_PRJ = [
     participants:[{ id:1, contractorId:2, role:"Подрядчик", agentFee:0 },{ id:2, contractorId:5, role:"Прораб", agentFee:15000 }],
     photos:[], agentFees:[{ id:1, name:"Козлов М.П.", amount:15000, date:"2025-08-01", note:"Агентское" }],
   },
-  { id:2, name:"Офис на Пушкина, 5", client:"ООО "Ромашка"", color:"#3A7FE8", budget:1200000, expenses:520000,
+  { id:2, name:"Офис на Пушкина, 5", client:"ООО «Ромашка»", color:"#3A7FE8", budget:1200000, expenses:520000,
     events:[{ id:1, type:"Поступление", date:"2025-07-01", amount:600000, note:"Аванс 50%" }],
     costItems:[{ id:1, name:"Сантехника", executor:"СантехМастер", price:200000, expenses:180000, works:"Разводка труб", done:true, progress:100,
       payments:[{ id:1, date:"2025-07-01", amount:100000, note:"Аванс" },{ id:2, date:"2025-07-20", amount:100000, note:"Финал" }] }],
@@ -164,7 +164,7 @@ function ProjectCard({ p, onClick }) {
             <span style={{ width:9, height:9, borderRadius:"50%", background:p.color, display:"inline-block" }} />
             <span style={{ fontSize:15, fontWeight:600, color:"#1a1a1a" }}>{p.name}</span>
           </div>
-          <div style={{ fontSize:12, color:"#999", marginTop:2 }}>{p.client} - {p.costItems.length} статей</div>
+          <div style={{ fontSize:12, color:"#999", marginTop:2 }}>{p.client} · {p.costItems.length} статей</div>
         </div>
         <div style={{ textAlign:"right" }}>
           <div style={{ fontSize:14, fontWeight:600, color:profit>=0?"#388E3C":"#E53935" }}>{fmtS(profit)}</div>
@@ -312,6 +312,6 @@ function CostSheet({ ci, proj, onClose, onDelete, onProgress, onAddPayment, onDe
               <span style={{ fontSize:13, color:"#555", minWidth:80 }}>{fmtD(pay.date)}</span>
               <span style={{ fontSize:12, color:"#aaa", flex:1, fontStyle:"italic" }}>{pay.note}</span>
               <span style={{ fontSize:14, fontWeight:600, color:"#388E3C" }}>+{fmt(pay.amount)}</span>
-              <span style={{ fontSize:18, color:"#ddd", cursor:"pointer", paddingLeft:6 }} onClick={() => onDelPayment(pay.id)}>x</span>
+              <span style={{ fontSize:18, color:"#ddd", cursor:"pointer", paddingLeft:6 }} onClick={() => onDelPayment(pay.id)}>×</span>
             </div>
-
+          ))
